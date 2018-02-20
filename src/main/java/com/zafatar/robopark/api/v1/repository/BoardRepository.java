@@ -37,8 +37,8 @@ public class BoardRepository implements BoardRepositoryInterface {
 	// Key / Field => Value
 	// boards / Board:<id> => Board
 	private HashOperations<String, String, Board> hashOperations;
-	private int activeBoardId;
-	private int maxNumber;     // Max number of Board in the repo -from config.
+	private int activeBoardId = 1 ; // By default, first board is active.
+	private int maxNumber;          // Max number of Board in the repo -from config.
 	
 	protected BoardRepository() {
 	} // Visible constructor.

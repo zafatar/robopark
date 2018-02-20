@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.zafatar.robopark.api.v1.exceptions.BoardNotFoundException;
 import com.zafatar.robopark.api.v1.exceptions.RobotMoveNotPossibleException;
 import com.zafatar.robopark.api.v1.exceptions.RobotNotFoundException;
+import com.zafatar.robopark.api.v1.exceptions.RobotPlaceOutOfBorderException;
 import com.zafatar.robopark.api.v1.model.Board;
 import com.zafatar.robopark.api.v1.model.Direction;
 import com.zafatar.robopark.api.v1.model.Robot;
@@ -36,6 +37,11 @@ public class RobotRestController {
 		this.robotRepository = robotRepository;
 	}
 	
+	/**
+	 * This method returns all the robots defined in the system. 
+	 * 
+	 * @return response containing the list of robots.
+	 */
 	@RequestMapping(method = RequestMethod.GET)
 	ResponseEntity<ApiResponse> getAllRobots() {
 		Map<String, Robot> robotsAsHash = this.robotRepository.findAll();
@@ -45,6 +51,12 @@ public class RobotRestController {
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus());
 	}
 	
+	/**
+	 * This method create a robot in the system by reading the request body.
+	 * 
+	 * @param robot a temp robot created from request body.
+	 * @return response containing the created robot.
+	 */
 	@RequestMapping(method = RequestMethod.POST)
 	ResponseEntity<ApiResponse> createRobot(@RequestBody Robot robot) {
 		Robot createdRobot = new Robot();
@@ -55,24 +67,48 @@ public class RobotRestController {
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus());
 	}
 	
+	/**
+	 * This method places the robot to the given position and direction.
+	 * 
+	 * @param id id of the robot to be placed
+	 * @param updatedRobot partial robot instance with location and face.
+	 * @return response containing the placed robot.
+	 * @throws RobotNotFoundException
+	 * @throws BoardNotFoundException
+	 * @throws RobotPlaceOutOfBorderException 
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}")
 	ResponseEntity<ApiResponse> placeRobot(@PathVariable int id, @RequestBody Robot updatedRobot) 
-		throws RobotNotFoundException, BoardNotFoundException {
+		throws RobotNotFoundException, BoardNotFoundException, RobotPlaceOutOfBorderException {
+		// Board in which the robot to be placed.
+		Board board = this.boardRepository.findById(this.boardRepository.getActiveBoardId());
 		Robot robot = (Robot) this.robotRepository.findById(id);
+
+		if (updatedRobot.getLocation().getX() + 1 >= board.getWidth() || 
+			updatedRobot.getLocation().getY() + 1 >= board.getHeight() ) {
+			throw new RobotPlaceOutOfBorderException(robot.getId());
+		}
+			
 		robot.setLocation(updatedRobot.getLocation());
 		robot.setFace(updatedRobot.getFace());
-		
 		this.robotRepository.update(robot);
 		
 		// Get active board here and add this robot to the board.
-		Board b = this.boardRepository.findById(this.boardRepository.getActiveBoardId());
-		b.setRobots(Arrays.asList(robot.getId()));
-		this.boardRepository.update(b);
+		
+		board.setRobots(Arrays.asList(robot.getId()));
+		this.boardRepository.update(board);
 		
 		ApiResponse ar = new ApiResponse(HttpStatus.OK, "robot placed", robot);
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus()); 
 	}
 	
+	/**
+	 * This method returns the robot requested by its id.
+	 * 
+	 * @param id of the robot.
+	 * @return response containing the requested robot.
+	 * @throws RobotNotFoundException
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}")
 	ResponseEntity<ApiResponse> getRobot(@PathVariable int id) throws RobotNotFoundException {
 		Robot robot = this.robotRepository.findById(id);	
@@ -81,6 +117,15 @@ public class RobotRestController {
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus()); 
 	}
 	
+	/**
+	 * This method moves the robot.
+	 * 
+	 * @param id of the robot to be moved.
+	 * @return response containing the moved robot.
+	 * @throws RobotNotFoundException
+	 * @throws BoardNotFoundException
+	 * @throws RobotMoveNotPossibleException
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/move")
 	ResponseEntity<ApiResponse> moveRobot(@PathVariable int id) throws RobotNotFoundException, BoardNotFoundException, RobotMoveNotPossibleException {
 		Robot robot = this.robotRepository.findById(id);
@@ -125,6 +170,13 @@ public class RobotRestController {
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus()); 
 	}
 
+	/**
+	 * This method make the robot turn to left. 
+	 * 
+	 * @param id of the robot to turn left.
+	 * @return response containing the placed robot.
+	 * @throws RobotNotFoundException
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/left")
 	ResponseEntity<ApiResponse> turnRobotLeft(@PathVariable int id) throws RobotNotFoundException {
 		Robot robot = this.robotRepository.findById(id);
@@ -147,6 +199,13 @@ public class RobotRestController {
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus()); 
 	}
 	
+	/**
+	 * This method make the robot turn to right. 
+	 * 
+	 * @param id of the robot to turn right.
+	 * @return response containing the placed robot.
+	 * @throws RobotNotFoundException
+	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/{id}/right")
 	ResponseEntity<ApiResponse> turnRobotRight(@PathVariable int id) throws RobotNotFoundException {
 		Robot robot = this.robotRepository.findById(id);
@@ -169,6 +228,13 @@ public class RobotRestController {
 		return new ResponseEntity<ApiResponse>(ar, ar.getStatus()); 
 	}
 	
+	/**
+	 * This method calls a report method on the given robot.
+	 * 
+	 * @param id of the robot.
+	 * @return response containing the placed robot.
+	 * @throws RobotNotFoundException
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/{id}/report")
 	ResponseEntity<?> report(@PathVariable int id) throws RobotNotFoundException {
 		Robot robot = this.robotRepository.findById(id);

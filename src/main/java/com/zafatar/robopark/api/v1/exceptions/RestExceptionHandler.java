@@ -34,7 +34,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	// 409 - RobotMoveNotPossibleException
-	@ExceptionHandler({ RobotMoveNotPossibleException.class })
+	@ExceptionHandler({ RobotMoveNotPossibleException.class, RobotPlaceOutOfBorderException.class })
 	public ResponseEntity<ApiBasicResponse> handleRobotMoveNotPossibleException(final RobotMoveNotPossibleException ex, final WebRequest request) {
 		final ApiBasicResponse apiError = new ApiBasicResponse(HttpStatus.CONFLICT, ex.getLocalizedMessage());
 		return new ResponseEntity<ApiBasicResponse>(apiError, new HttpHeaders(), apiError.getStatus());

@@ -1,0 +1,288 @@
+{
+	"info": {
+		"name": "robopark-calls",
+		"_postman_id": "97779a72-c9fa-efea-3a70-b2ae04c85ea3",
+		"description": "This is the series of request to create and move a robot on a defined board",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "0. RESET all boards",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/boards/reset",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"boards",
+						"reset"
+					]
+				},
+				"description": "\n"
+			},
+			"response": []
+		},
+		{
+			"name": "0. RESET all robots",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/reset",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"reset"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "1. CREATE board",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"width\": 5, \"height\": 5}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/boards",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"boards"
+					]
+				},
+				"description": "This request lists the created robots with their current attributes such as Location by x and y and face."
+			},
+			"response": []
+		},
+		{
+			"name": "2. GET board #1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots"
+					]
+				},
+				"description": "This request lists the created robots with their current attributes such as Location by x and y and face."
+			},
+			"response": []
+		},
+		{
+			"name": "3. CREATE robot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"width\": 5, \"height\": 5}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/boards",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"boards"
+					]
+				},
+				"description": "This request lists the created robots with their current attributes such as Location by x and y and face."
+			},
+			"response": []
+		},
+		{
+			"name": "4. GET robot #1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"1"
+					]
+				},
+				"description": "This request lists the created robots with their current attributes such as Location by x and y and face."
+			},
+			"response": []
+		},
+		{
+			"name": "5. PLACE robot #1 TO (3,2) FACEd to NORTH",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"location\": {\"x\": 3, \"y\": 2}, \"face\": \"NORTH\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"1"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "6. turn robot #1 to LEFT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/1/left",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"1",
+						"left"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "7. turn robot #1 to RIGHT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/1/left",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"1",
+						"left"
+					]
+				},
+				"description": "This request lists the created robots with their current attributes such as Location by x and y and face."
+			},
+			"response": []
+		},
+		{
+			"name": "6. MOVE robot #1 on active board",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/1/left",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"1",
+						"left"
+					]
+				},
+				"description": "This request lists the created robots with their current attributes such as Location by x and y and face."
+			},
+			"response": []
+		},
+		{
+			"name": "8. REPORT call on robot #1",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/v1/robots/1/report",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"robots",
+						"1",
+						"report"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

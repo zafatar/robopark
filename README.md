@@ -255,7 +255,7 @@ This endpoint allows the robot to move one cell in the current direction of the 
 
 | HTTP Method | Path |
 | ------ | ------ |
-| POST | /api/v1/robot/<id>/move |
+| POST | /api/v1/robot/\<id>/move |
 
 Possible return codes:
 
@@ -289,7 +289,7 @@ This endpoint allows the robot to turn left, i.e. rotate in current cell towards
 
 | HTTP Method | Path |
 | ------ | ------ |
-| POST | /api/v1/robot/<id>/left |
+| POST | /api/v1/robot/\<id>/left |
 
 Possible return codes:
 
@@ -308,7 +308,7 @@ Example Response:
     "message": "robot turned to left",
     "data": {
         "id": 1,
-        "name": "R2D2-v2-v2",
+        "name": "R2D2-v2",
         "location": {
             "x": 3,
             "y": 3
@@ -322,7 +322,7 @@ This endpoint allows the robot to turn right, i.e. rotate in current cell toward
 
 | HTTP Method | Path |
 | ------ | ------ |
-| POST | /api/v1/robot/<id>/right |
+| POST | /api/v1/robot/\<id>/right |
 
 Possible return codes:
 
@@ -341,7 +341,7 @@ Example Response:
     "message": "robot turned to right",
     "data": {
         "id": 1,
-        "name": "R2D2-v2-v2",
+        "name": "R2D2-v2",
         "location": {
             "x": 3,
             "y": 3
@@ -355,7 +355,7 @@ This method allows to return a report string. It's quite similar to the GET robo
 
 | HTTP Method | Path |
 | ------ | ------ |
-| GET | /api/v1/robot/<id>/report |
+| GET | /api/v1/robot/\<id>/report |
 
 Possible return codes:
 
@@ -374,7 +374,7 @@ Example Response:
     "message": "Robot ID#1 Output: 3.0, 3.0, NORTH",
     "data": {
         "id": 1,
-        "name": "R2D2-v2-v2",
+        "name": "R2D2-v2",
         "location": {
             "x": 3,
             "y": 3

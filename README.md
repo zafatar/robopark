@@ -192,7 +192,7 @@ Example Response:
 }
 ```
 ##### 4.4. Retrieve a robot by its id.
-This endpoint will retrieve the list of children category based on a given category UUID.
+This endpoint will retrieve a robot by its id and return the robot object.
 
 | HTTP Method | Path |
 | ------ | ------ |
